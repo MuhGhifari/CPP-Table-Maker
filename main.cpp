@@ -15,14 +15,17 @@ class TableMaker {
     table.push_back(row);
   }
 
-  void sortByColumn(int columnIndex, bool ascending = true) {
+  void sortByColumn(int columnIndex, bool ascending = true, bool hasHeader = false) {
+    auto startingIndex = hasHeader ? table.begin() + 1 : table.begin();
+    int column = columnIndex - 1;
+
     if (ascending) {
-      sort(table.begin(), table.end(), [columnIndex](const Row &a, const Row & b) {
-        return a[columnIndex] < b[columnIndex];
+      sort(startingIndex, table.end(), [column](const Row &a, const Row & b) {
+        return a[column] < b[column];
       });
     } else {
-      sort(table.begin(), table.end(), [columnIndex](const Row &a, const Row &b) {
-        return a[columnIndex] > b[columnIndex];
+      sort(startingIndex, table.end(), [column](const Row &a, const Row &b) {
+        return a[column] > b[column];
       });
     }
   }
@@ -34,7 +37,9 @@ class TableMaker {
     output << "+" << endl;
   }
 
-  void printTabel(ostream &output, bool header = false) {
+  void printTabel(ostream &output, bool hasHeader = false) {
+    if (table.empty()) return;
+
     vector<size_t> columnWidth(table[1].size(), 0);
 
     for (const auto &row : table) {
@@ -51,11 +56,12 @@ class TableMaker {
         output << "| " << setw(columnWidth[i] + 1) << left << row[i];
       }
       output << "|" << endl;
-      if (header && rowIndex == table.begin()) {
+      if (hasHeader && rowIndex == table.begin()) {
         printBorder(columnWidth, output);
       }
       rowIndex++;
     }
+
     printBorder(columnWidth, output);
   }
 };
@@ -64,11 +70,15 @@ int main() {
   TableMaker tm;
 
   tm.table = {
-    {"John", "Doe", "30"},
-    {"Jane", "Smith", "25"},
-    {"Alice", "Brown", "28"},
+    {"NPM", "Nama", "Role"},
+    {"065123020", "Muhammad Ghifari", "Programmer"},
+    {"065123026", "Revieta Ramadhani K.", "PPT"},
+    {"065123021", "Muhammad Bimo N.R.", "Makalah"},
+    {"065123004", "Rizha Aditya", "Flowchart"},
+    {"065123023", "Muhammad Ziran", "Tester"},
   };
 
+  tm.sortByColumn(1, true, true);
   tm.printTabel(cout, true);
   return 0;
 }
