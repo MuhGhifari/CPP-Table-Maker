@@ -7,6 +7,14 @@
 using namespace std;
 
 class TableMaker {
+  protected:
+  void printBorder(vector<size_t> columnWidth, ostream &output) {
+    for (int i = 0; i < columnWidth.size(); i++) {
+      output << "+" << string(columnWidth[i] + 2, '-');
+    }
+    output << "+" << endl;
+  }
+
   public:
   using Row = vector<string>;
   vector<Row> table;
@@ -28,13 +36,6 @@ class TableMaker {
         return a[column] > b[column];
       });
     }
-  }
-
-  void printBorder(vector<size_t> columnWidth, ostream &output) {
-    for (int i = 0; i < columnWidth.size(); i++) {
-      output << "+" << string(columnWidth[i] + 2, '-');
-    }
-    output << "+" << endl;
   }
 
   void printTabel(ostream &output, bool hasHeader = false) {
