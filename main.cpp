@@ -52,7 +52,7 @@ class TableMaker {
 
     auto rowIndex = table.begin();
     for (const auto &row : table) {
-      for (int i = 0; i < row.size(); i++) {
+      for (int i = 0; i < columnWidth.size(); i++) {
         output << "| " << setw(columnWidth[i] + 1) << left << row[i];
       }
       output << "|" << endl;
