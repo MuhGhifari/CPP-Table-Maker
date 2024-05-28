@@ -23,7 +23,12 @@ class TableMaker {
     table.push_back(row);
   }
 
-  void sortByColumn(int columnIndex, bool ascending = true, bool hasHeader = false) {
+  void sortByColumn(int columnIndex, bool hasHeader = false, bool ascending = true) {
+    if (columnIndex < 1 || columnIndex > table[1].size()) {
+      cerr << "[\x1b[31mERROR\x1b[0m] : tidak ada indeks kolom ke-" << columnIndex << " untuk diurut" << endl;
+      return;
+    }
+
     auto startingIndex = hasHeader ? table.begin() + 1 : table.begin();
     int column = columnIndex - 1;
 
